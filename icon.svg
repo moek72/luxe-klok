@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Luxe Klok">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1508"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f3e3c2"/>
+      <stop offset="100%" stop-color="#c9a227"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#g)"/>
+  <circle cx="256" cy="256" r="168" fill="none" stroke="url(#gold)" stroke-width="18"/>
+  <circle cx="256" cy="256" r="14" fill="#c9a227"/>
+  <line x1="256" y1="256" x2="256" y2="140" stroke="#f3e3c2" stroke-width="16" stroke-linecap="round"/>
+  <line x1="256" y1="256" x2="340" y2="256" stroke="#c9a227" stroke-width="12" stroke-linecap="round"/>
+</svg>
