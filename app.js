@@ -59,7 +59,6 @@
     weatherIcon: document.getElementById("weatherIcon"),
     weatherTemp: document.getElementById("weatherTemp"),
     weatherDesc: document.getElementById("weatherDesc"),
-    status: document.getElementById("status"),
     paletteDot: document.getElementById("paletteDot"),
     btnSettings: document.getElementById("btnSettings"),
     btnFullscreen: document.getElementById("btnFullscreen"),
@@ -152,21 +151,16 @@
   async function requestWakeLock() {
     if (!state.keepAwake) {
       releaseWakeLock();
-      el.status.textContent = "Scherm mag dimmen";
       return;
     }
-    if (!("wakeLock" in navigator)) {
-      el.status.textContent = "Wake Lock niet ondersteund · houd scherm handmatig aan";
-      return;
-    }
+    if (!("wakeLock" in navigator)) return;
     try {
       state.wakeLock = await navigator.wakeLock.request("screen");
-      el.status.textContent = "Scherm blijft aan";
       state.wakeLock.addEventListener("release", () => {
-        if (state.keepAwake) el.status.textContent = "Tik om scherm weer aan te houden";
+        /* stil opnieuw proberen bij volgende touch */
       });
     } catch {
-      el.status.textContent = "Tik ergens om scherm aan te houden";
+      /* Android laat wake lock soms los; touch herstelt het */
     }
   }
 
@@ -236,10 +230,10 @@
 
   function locateGps() {
     if (!navigator.geolocation) {
-      el.status.textContent = "GPS niet beschikbaar";
+      el.weatherDesc.textContent = "GPS niet beschikbaar";
       return;
     }
-    el.status.textContent = "Locatie ophalen…";
+    el.weatherDesc.textContent = "Locatie ophalen…";
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const { latitude, longitude } = pos.coords;
@@ -269,10 +263,9 @@
           /* ignore */
         }
         useLocation(latitude, longitude, city);
-        el.status.textContent = state.keepAwake ? "Scherm blijft aan" : "Scherm mag dimmen";
       },
       () => {
-        el.status.textContent = "Locatie geweigerd · gebruik plaatsnaam";
+        el.weatherDesc.textContent = "Locatie geweigerd · typ plaats";
       },
       { enableHighAccuracy: false, timeout: 12000 }
     );
@@ -295,7 +288,7 @@
         await document.exitFullscreen?.();
       }
     } catch {
-      el.status.textContent = "Voeg toe aan startscherm voor vol scherm";
+      /* fullscreen niet beschikbaar; PWA-startscherm werkt wel */
     }
   }
 
@@ -321,7 +314,7 @@
         const g = await geocodeCity(city);
         useLocation(g.lat, g.lon, g.city);
       } catch {
-        el.status.textContent = "Plaats niet gevonden";
+        el.weatherDesc.textContent = "Plaats niet gevonden";
       }
     }
 

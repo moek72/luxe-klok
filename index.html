@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="description" content="Luxe digitale klok met datum en weer. Scherm blijft aan." />
+  <meta name="description" content="Luxe digitale klok met datum en weer." />
   <title>Luxe Klok</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
@@ -25,8 +25,10 @@
     <header class="top-bar">
       <div class="weather" id="weather" title="Tik om weer te verversen">
         <span class="weather-icon" id="weatherIcon">···</span>
-        <span class="weather-temp" id="weatherTemp">--°</span>
-        <span class="weather-desc" id="weatherDesc">Weer laden…</span>
+        <div class="weather-text">
+          <span class="weather-temp" id="weatherTemp">--°</span>
+          <span class="weather-desc" id="weatherDesc">Weer laden…</span>
+        </div>
       </div>
       <button type="button" class="btn-icon" id="btnSettings" aria-label="Instellingen" title="Instellingen">⚙</button>
     </header>
@@ -43,7 +45,6 @@
 
     <footer class="bottom-bar">
       <div class="palette-dot" id="paletteDot" title="Huidige kleuren"></div>
-      <div class="status" id="status">Scherm aan houden…</div>
       <button type="button" class="btn-text" id="btnFullscreen">Volledig scherm</button>
     </footer>
   </div>

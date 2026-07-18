@@ -99,10 +99,10 @@ body {
 
 .weather {
   display: flex;
-  align-items: baseline;
-  gap: 10px;
-  padding: 10px 14px;
-  border-radius: 999px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-radius: 22px;
   background: var(--card);
   border: 1px solid var(--border);
   backdrop-filter: blur(10px);
@@ -112,24 +112,36 @@ body {
 }
 
 .weather-icon {
-  font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+  font-size: clamp(2rem, 7vw, 3rem);
   line-height: 1;
+  flex-shrink: 0;
+}
+
+.weather-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
 }
 
 .weather-temp {
-  font-size: clamp(1.15rem, 4vw, 1.55rem);
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-size: clamp(2rem, 7.5vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
   color: var(--fg);
+  font-variant-numeric: tabular-nums;
 }
 
 .weather-desc {
-  font-size: clamp(0.85rem, 2.8vw, 1rem);
+  font-size: clamp(1rem, 3.6vw, 1.35rem);
   color: var(--muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-weight: 400;
+  font-weight: 500;
+  max-width: min(58vw, 320px);
 }
 
 .btn-icon,
@@ -224,18 +236,18 @@ body {
 
 .date {
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(1.55rem, 5.8vw, 2.6rem);
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  font-size: clamp(2.2rem, 8.5vw, 3.6rem);
+  font-weight: 600;
+  letter-spacing: 0.03em;
   color: var(--fg);
   transition: var(--transition);
 }
 
 .weekday {
-  margin-top: 6px;
-  font-size: clamp(0.95rem, 3.2vw, 1.25rem);
-  font-weight: 400;
-  letter-spacing: 0.28em;
+  margin-top: 10px;
+  font-size: clamp(1.25rem, 5vw, 1.85rem);
+  font-weight: 500;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--muted);
   transition: var(--transition);
@@ -243,6 +255,7 @@ body {
 
 .bottom-bar {
   opacity: 0.92;
+  justify-content: space-between;
 }
 
 .palette-dot {
@@ -252,14 +265,6 @@ body {
   background: var(--accent);
   box-shadow: 0 0 12px var(--glow);
   transition: var(--transition);
-}
-
-.status {
-  flex: 1;
-  text-align: center;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  color: var(--muted);
 }
 
 /* Landscape: nog grotere klok, compactere randen */
@@ -274,15 +279,29 @@ body {
   }
 
   .date {
-    font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+    font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+  }
+
+  .weekday {
+    font-size: clamp(1rem, 3vw, 1.35rem);
+    margin-top: 4px;
   }
 
   .divider {
     margin: 10px auto 8px;
   }
 
+  .weather-temp {
+    font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+  }
+
+  .weather-icon {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+
   .weather-desc {
-    max-width: 28vw;
+    max-width: 40vw;
+    font-size: clamp(0.9rem, 2.4vw, 1.1rem);
   }
 }
 

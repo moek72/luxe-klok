@@ -1,4 +1,4 @@
-const CACHE = "luxe-klok-v1";
+const CACHE = "luxe-klok-v2";
 const ASSETS = [
   "./",
   "./index.html",

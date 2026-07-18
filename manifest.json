@@ -1,7 +1,7 @@
 {
   "name": "Luxe Klok",
   "short_name": "Klok",
-  "description": "Luxe digitale klok met datum en weer. Scherm blijft aan.",
+  "description": "Luxe digitale klok met datum en weer.",
   "start_url": "./index.html",
   "display": "fullscreen",
   "orientation": "any",
