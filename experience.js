@@ -33,7 +33,7 @@
  const tabs=[...document.querySelectorAll('[role=tab]')];
  function selectTab(tab){tabs.forEach(t=>{const chosen=t===tab;t.setAttribute('aria-selected',String(chosen));t.tabIndex=chosen?0:-1;$(t.getAttribute('aria-controls')).hidden=!chosen});}
  tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>selectTab(tab));tab.addEventListener('keydown',e=>{let n=i;if(e.key==='ArrowRight')n=(i+1)%tabs.length;else if(e.key==='ArrowLeft')n=(i+tabs.length-1)%tabs.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=tabs.length-1;else return;e.preventDefault();selectTab(tabs[n]);tabs[n].focus()})});
- const canonical=new URL('./',location.href).href;$('shareUrl').value=canonical;
+ const canonical=new URL('./',location.href).href+'?v=2';$('shareUrl').value=canonical;
  $('copyLink').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(canonical);$('shareStatus').textContent='Link gekopieerd · plak hem in WhatsApp of een bericht.'}catch{$('shareUrl').focus();$('shareUrl').select();$('shareStatus').textContent='Selecteer en kopieer de link hierboven.'}});
  $('shareApp').addEventListener('click',async()=>{if(navigator.share){try{await navigator.share({title:'Luxe Klok',text:'Mijn luxe klok met geluidseffecten, radio en Spotify',url:canonical});$('shareStatus').textContent='Deelvenster geopend.'}catch(e){if(e.name!=='AbortError')$('copyLink').click()}}else $('copyLink').click()});
  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('installStatus').textContent='Je kunt Luxe Klok nu als app installeren.'});

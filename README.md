@@ -1,6 +1,6 @@
 # Luxe Klok · Portable Sound Edition 2
 
-**App:** https://moek72.github.io/luxe-klok/
+**App:** https://moek72.github.io/luxe-klok/?v=2
 
 Een rustige, persoonlijke klok met vier veelkleurige geluidseffecten, radio en een Spotify-speler. Geen ChatGPT-account nodig. Alle bediening zit achter het tandwiel.
 
