@@ -117,7 +117,7 @@
     root.style.setProperty("--accent", p.accent);
     root.style.setProperty("--accent-soft", p.soft);
     root.style.setProperty("--glow", p.glow);
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", p.bg);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", root.style.getPropertyValue("--scene-bg") || p.bg);
     el.paletteDot.title = `Kleuren: ${p.name} (wisselt elk half uur)`;
   }
 

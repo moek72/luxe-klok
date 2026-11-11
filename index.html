@@ -1,87 +1,101 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#0a0a0a" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="description" content="Luxe digitale klok met datum en weer." />
-  <title>Luxe Klok</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="icon.svg" type="image/svg+xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#07070d" />
+<meta name="description" content="Jouw luxe klok: veelkleurige geluidseffecten, radio en Spotify. Installeerbaar en zonder account te delen." />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<title>Luxe Klok</title>
+<link rel="manifest" href="./manifest.json" />
+<link rel="icon" href="./icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="./icon-192.png" />
+<link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div id="app" class="app" aria-live="polite">
-    <div class="glow glow-a" aria-hidden="true"></div>
-    <div class="glow glow-b" aria-hidden="true"></div>
-    <div class="vignette" aria-hidden="true"></div>
-
-    <header class="top-bar">
-      <div class="weather" id="weather" title="Tik om weer te verversen">
-        <span class="weather-icon" id="weatherIcon">···</span>
-        <div class="weather-text">
-          <span class="weather-temp" id="weatherTemp">--°</span>
-          <span class="weather-desc" id="weatherDesc">Weer laden…</span>
-        </div>
-      </div>
-      <button type="button" class="btn-icon" id="btnSettings" aria-label="Instellingen" title="Instellingen">⚙</button>
-    </header>
-
-    <main class="stage">
-      <div class="time-block">
-        <div class="time" id="time">00:00</div>
-        <div class="seconds" id="seconds">00</div>
-      </div>
-      <div class="divider" aria-hidden="true"></div>
-      <div class="date" id="date">—</div>
-      <div class="weekday" id="weekday">—</div>
-    </main>
-
-    <footer class="bottom-bar">
-      <div class="palette-dot" id="paletteDot" title="Huidige kleuren"></div>
-      <button type="button" class="btn-text" id="btnFullscreen">Volledig scherm</button>
-    </footer>
+<div class="app" id="app">
+ <canvas id="soundCanvas" aria-hidden="true"></canvas>
+ <header class="top-bar">
+  <div class="weather" id="weather" title="Weer vernieuwen"><span id="weatherIcon">·</span><div><span id="weatherTemp">--°</span><span id="weatherDesc">Weer laden…</span></div></div>
+  <button class="gear" id="btnSettings" type="button" aria-label="Instellingen">⚙</button>
+ </header>
+ <main class="stage">
+  <div class="time-block"><div class="time" id="time">00:00</div><span class="seconds" id="seconds">00</span></div>
+  <div class="date" id="date">—</div><div class="weekday" id="weekday">—</div>
+ </main>
+ <div class="scene-caption" id="sceneCaption" aria-live="polite"></div>
+ <div id="paletteDot" hidden></div>
+</div>
+<dialog id="settings" class="settings">
+ <form method="dialog" class="settings-card">
+  <div class="settings-heading"><div><span class="eyebrow">JOUW MOMENT. JOUW SFEER.</span><h1>Luxe Klok</h1></div><button class="close-button" value="ok" aria-label="Instellingen sluiten">✕</button></div>
+  <div class="tabs" role="tablist" aria-label="Instellingen onderdelen">
+   <button type="button" role="tab" aria-selected="true" aria-controls="panelSound" id="tabSound" tabindex="0">Effecten</button>
+   <button type="button" role="tab" aria-selected="false" aria-controls="panelClock" id="tabClock" tabindex="-1">Klok</button>
+   <button type="button" role="tab" aria-selected="false" aria-controls="panelMusic" id="tabMusic" tabindex="-1">Muziek</button>
+   <button type="button" role="tab" aria-selected="false" aria-controls="panelApp" id="tabApp" tabindex="-1">App</button>
   </div>
-
-  <dialog id="settings" class="settings">
-    <form method="dialog" class="settings-card">
-      <h2>Instellingen</h2>
-
-      <label class="field">
-        <span>Plaats (voor weer)</span>
-        <input type="text" id="cityInput" placeholder="Bijv. Amsterdam" autocomplete="address-level2" />
-      </label>
-
-      <label class="field row">
-        <span>Seconden tonen</span>
-        <input type="checkbox" id="showSeconds" checked />
-      </label>
-
-      <label class="field row">
-        <span>24-uurs klok</span>
-        <input type="checkbox" id="use24h" checked />
-      </label>
-
-      <label class="field row">
-        <span>Scherm altijd aan</span>
-        <input type="checkbox" id="keepAwake" checked />
-      </label>
-
-      <p class="hint">Kleuren wisselen automatisch elk half uur. Tik ergens op het scherm als het dimt.</p>
-
-      <div class="settings-actions">
-        <button type="submit" class="btn-primary" value="ok">Klaar</button>
-        <button type="button" class="btn-ghost" id="btnLocate">GPS-locatie</button>
-      </div>
-    </form>
-  </dialog>
-
-  <script src="app.js"></script>
-</body>
-</html>
+  <section id="panelSound" role="tabpanel" aria-labelledby="tabSound">
+   <h2>Licht dat meebeweegt</h2><p class="hint">Kies je effect en geef het de ruimte.</p>
+   <div class="effect-picker" role="group" aria-label="Geluidseffect">
+    <button type="button" data-effect="bars" aria-pressed="true">▥<span>Balkjes</span></button><button type="button" data-effect="waves" aria-pressed="false">≈<span>Golven</span></button><button type="button" data-effect="ring" aria-pressed="false">◎<span>Ringen</span></button><button type="button" data-effect="aura" aria-pressed="false">✧<span>Aura</span></button>
+   </div>
+   <div class="action-row"><button type="button" class="primary" id="btnSound" aria-pressed="false">Microfoon inschakelen</button><button type="button" class="secondary" id="btnDemo" aria-pressed="false">Demo</button></div>
+   <p class="hint" id="soundStatus" role="status">Microfoon uit. Je geluid wordt niet opgenomen.</p>
+   <label class="field">Kleuren van het effect<select id="soundColor"><option value="rainbow">Volle regenboog</option><option value="aurora">Noorderlicht</option><option value="fire">Vuur &amp; amber</option><option value="ocean">Oceaan</option><option value="gold">Champagne &amp; goud</option><option value="custom">Eigen kleur</option></select></label>
+   <label class="field color-row">Eigen effectkleur<input type="color" id="effectColor" value="#a879ff" /></label>
+   <label class="field">Beweging<select id="soundMood"><option value="calm">Zacht</option><option value="lounge">Vloeiend</option><option value="party">Energiek</option></select></label>
+   <label class="field"><span>Gevoeligheid <output id="sensitivityValue">150%</output></span><input type="range" id="sensitivity" min="25" max="400" step="5" value="150" /></label>
+   <label class="field"><span>Intensiteit <output id="intensityValue">100%</output></span><input type="range" id="intensity" min="10" max="200" step="5" value="100" /></label>
+   <p class="hint">Meer gevoeligheid voor zacht geluid. Meer intensiteit voor hogere balken en grotere golven. Radio heeft een eigen directe visualisatie in Muziek.</p>
+  </section>
+  <section id="panelClock" role="tabpanel" aria-labelledby="tabClock" hidden>
+   <h2>Maak hem van jou</h2>
+   <label class="field">Lettertype<select id="clockFont"><option value="outfit">Modern — Outfit</option><option value="orbitron">Futuristisch — Orbitron</option><option value="serif">Elegant — Cormorant</option><option value="mono">Digitaal — Share Tech Mono</option></select></label>
+   <label class="field"><span>Klokgrootte <output id="clockSizeValue">100%</output></span><input type="range" id="clockSize" min="65" max="120" step="5" value="100" /></label>
+   <label class="field color-row">Kleur van de klok<input type="color" id="clockColor" value="#f7f0e8" /></label>
+   <label class="field row">Klok in regenboogkleuren<input type="checkbox" id="clockRainbow" /></label>
+   <label class="field color-row">Achtergrond<input type="color" id="backgroundColor" value="#07070d" /></label>
+   <label class="field row">Nachtstand<input type="checkbox" id="nightMode" /></label>
+   <label class="field row">Seconden tonen<input type="checkbox" id="showSeconds" checked /></label>
+   <label class="field row">24-uurs klok<input type="checkbox" id="use24h" checked /></label>
+   <label class="field row">Datum tonen<input type="checkbox" id="showDate" checked /></label>
+   <label class="field row">Weer tonen<input type="checkbox" id="showWeather" checked /></label>
+   <label class="field">Plaats voor het weer<input type="text" id="cityInput" placeholder="Amsterdam" autocomplete="address-level2" /></label>
+   <button type="button" class="secondary" id="btnLocate">Gebruik GPS-locatie</button>
+  </section>
+  <section id="panelMusic" role="tabpanel" aria-labelledby="tabMusic" hidden>
+   <h2>Je eigen soundtrack</h2>
+   <div class="music-card"><h3>Radio</h3><label class="field">Zender<select id="radioStation"><option value="radio2">NPO Radio 2</option><option value="3fm">NPO 3FM</option><option value="radio5">NPO Radio 5</option><option value="paradise">Radio Paradise — mix</option><option value="groovesalad">SomaFM — Groove Salad</option><option value="custom">Eigen stream</option></select></label>
+    <label class="field">Eigen HTTPS-stream<input id="radioUrl" type="url" placeholder="https://…/stream.mp3" /></label>
+    <div class="action-row"><button type="button" class="primary" id="radioPlay">Radio afspelen</button><button type="button" class="secondary" id="radioStop">Stop</button></div>
+    <label class="field"><span>Volume <output id="radioVolumeValue">65%</output></span><input type="range" id="radioVolume" min="0" max="100" step="5" value="65" /></label>
+    <button type="button" class="secondary" id="radioVisualize">Effecten op radio</button>
+    <p class="hint" id="radioStatus" role="status">Radio uit · internet nodig</p>
+   </div>
+   <div class="music-card"><h3>Spotify</h3><label class="field">Link naar nummer, album of playlist<input type="url" id="spotifyInput" placeholder="https://open.spotify.com/playlist/…" /></label>
+    <div class="action-row"><button type="button" class="primary" id="spotifyLoad">Speler openen</button><button type="button" class="secondary" id="spotifyClear">Sluiten</button></div>
+    <p class="hint" id="spotifyStatus" role="status">Spotify speelt via zijn eigen speler. Beschikbaarheid en afspeelduur hangen af van Spotify en je account. Effecten via de microfoon.</p>
+    <div id="spotifyPlayer"></div>
+   </div>
+  </section>
+  <section id="panelApp" role="tabpanel" aria-labelledby="tabApp" hidden>
+   <h2>Overal jouw klok</h2>
+   <div class="action-row"><button type="button" class="primary" id="installApp">App installeren</button><button type="button" class="secondary" id="btnFullscreen">Volledig scherm</button></div>
+   <p class="hint" id="installStatus" role="status">Installeer op je beginscherm voor een schermvullende klok.</p>
+   <label class="field row">Scherm wakker houden<input type="checkbox" id="keepAwake" checked /></label>
+   <h3>Delen</h3><label class="field">Publieke app-link<input type="url" id="shareUrl" readonly /></label>
+   <div class="action-row"><button type="button" class="primary" id="shareApp">Deel de klok</button><button type="button" class="secondary" id="copyLink">Kopieer link</button></div>
+   <p class="hint" id="shareStatus" role="status">Iedereen kan deze link openen, zonder ChatGPT-account.</p>
+   <h3>Instellingen meenemen</h3><div class="action-row"><button type="button" class="secondary" id="exportSettings">Exporteer</button><button type="button" class="secondary" id="importSettings">Importeer</button></div><input type="file" id="settingsFile" accept="application/json,.json" hidden />
+   <p class="hint" id="settingsStatus" role="status">Bewaar je eigen kleuren en voorkeuren als bestand.</p>
+   <p class="hint">De klok en effecten werken na het eerste bezoek ook offline. Radio, Spotify en actueel weer hebben internet nodig.</p>
+   <a class="source-link" href="https://github.com/moek72/luxe-klok" target="_blank" rel="noopener">Broncode &amp; portable download ↗</a>
+  </section>
+  <footer class="settings-footer"><button type="submit" class="primary" value="ok">Terug naar de klok</button><span>Sound Edition · 2.0</span></footer>
+ </form>
+</dialog>
+<audio id="radioAudio" preload="none" crossorigin="anonymous"></audio>
+<script src="./app.js"></script><script src="./sound.js"></script><script src="./experience.js"></script><script src="./music.js"></script>
+</body></html>
